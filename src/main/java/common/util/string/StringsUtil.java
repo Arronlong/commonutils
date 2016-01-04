@@ -1,6 +1,10 @@
 package common.util.string;
 
+import java.lang.reflect.Field;
+import java.util.Collection;
+
 import com.google.common.base.Strings;
+import common.util.reflect.ReflectUtils;
 import common.util.string.enums.DataFormat;
 
 /** 
@@ -39,6 +43,68 @@ public class StringsUtil {
 	 */
 	public static String nullToEmpty(String str){
 		return Strings.nullToEmpty(str);
+	}
+	
+	/**
+	 *  对象字段如果为空，则转化为null
+	 *  
+	 * @param obj 对象
+	 * @return
+	 */
+	public static <T> T emptyToNull(T obj){
+		Field[] fields = ReflectUtils.getFields(obj.getClass());
+		for (Field field : fields) {
+			field.setAccessible(true);
+			if(java.util.List.class.isAssignableFrom(field.getType())){
+				try {
+					Collection<?> c = (Collection<?>) field.get(obj);
+					for (Object object : c) {
+						emptyToNull(object);
+					}
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					if(field.get(obj).equals("")){
+						field.set(obj, null);
+					}
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return obj;
+	}
+	
+	/**
+	 *  对象字段如果为null，则转化为空
+	 *  
+	 * @param obj 对象
+	 * @return
+	 */
+	public static <T> T  nullToEmpty(T obj){
+		Field[] fields = ReflectUtils.getFields(obj.getClass());
+		for (Field field : fields) {
+			field.setAccessible(true);
+			if(java.util.List.class.isAssignableFrom(field.getType())){
+				try {
+					Collection<?> c = (Collection<?>) field.get(obj);
+					for (Object object : c) {
+						emptyToNull(object);
+					}
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}else{
+				try {
+					field.set(obj, Strings.nullToEmpty(String.valueOf(field.get(obj))));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return obj;
 	}
 
 	/**
