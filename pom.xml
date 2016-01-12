@@ -4,7 +4,7 @@
 	<groupId>common.utils</groupId>
 	<artifactId>CommonUtils</artifactId>
 	<version>1.0.0-beta</version>
-	<description></description>
+	<description>通用工具类，包括：数字、字符串、日期、对象复制、反射、类型转换、xml处理</description>
 
 	<properties>
 		<!-- 文件拷贝时的编码 -->
@@ -29,7 +29,6 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils-core</artifactId>
 			<version>1.8.3</version>
-			<scope>${scope.value}</scope>
 		</dependency>
 				<!-- simple-xml -->
 		<dependency>
