@@ -1,9 +1,14 @@
 package common.util.string;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Strings;
+
 import common.util.reflect.ReflectUtils;
 import common.util.string.enums.DataFormat;
 
@@ -276,6 +281,25 @@ public class StringsUtil {
 				break;
 		}
 		return result;
+	}
+	
+	/**
+	 * 通过正则表达式获取内容
+	 * 
+	 * @param regex		正则表达式
+	 * @param from		原字符串
+	 * @return
+	 */
+	public static String[] regex(String regex, String from){
+		Pattern pattern = Pattern.compile(regex); 
+		Matcher matcher = pattern.matcher(from);
+		List<String> results = new ArrayList<String>();
+		while(matcher.find()){
+			for (int i = 0; i < matcher.groupCount(); i++) {
+				results.add(matcher.group(i+1));
+			}
+		}
+		return results.toArray(new String[]{});
 	}
 	
 	public static void main(String[] args) {
