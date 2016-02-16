@@ -130,7 +130,7 @@ public class ReflectUtils {
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 */
-	public static <T> T convertMap2Bean(Map<String,Object> param , Class<T> clazz) throws InstantiationException, IllegalAccessException{
+	public static <T> T  map2Bean(Map<String,Object> param , Class<T> clazz) throws InstantiationException, IllegalAccessException{
 		
 		if(param == null || param.size()==0){
 			return null;
@@ -165,7 +165,7 @@ public class ReflectUtils {
 						//System.out.println(paramTypes[0].getName());
 						try {
 							method = clazz.getMethod(methodName.toString(), paramTypes);
-							method.invoke(obj, ConvertUtil.getValue(value.toString(), fieldName, paramTypes[0]));
+							method.invoke(obj, ConvertUtils.getValue(value.toString(), fieldName, paramTypes[0]));
 						} catch (Exception e) {
 							System.err.println("map转Bean时出错，字段名："+fieldName+"，类"+clazz.getSimpleName()+"："+e.getMessage());
 						}
@@ -174,52 +174,49 @@ public class ReflectUtils {
 			}
 		return (T)obj;
 	}
-	
+
 	/**
 	 * Bean转map
 	 * 
-	 * @param param
-	 * @param clazz
+	 * @param bean		
 	 * @return
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
 	 */
-	public static <T> LinkedHashMap<String,Object> convertBean2Map(T obj, Class<T> clazz) {
-		return convertBean2Map(obj, clazz, false);
+	public static LinkedHashMap<String,Object> bean2Map(Object bean) {
+		return bean2Map(bean, FMT.NONE);
 	}
 	
 	/**
 	 * Bean转map
 	 * 
-	 * @param param
-	 * @param clazz
+	 * @param bean	
+	 * @param fmt		格式：FMT.NONE(-1),   TOUPPER(0),   TOLOWER(1)
 	 * @return
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
 	 */
-	public static <T> LinkedHashMap<String,Object> convertBean2Map(T obj, Class<T> clazz,boolean isRemoveDef) {
+	public static LinkedHashMap<String,Object> bean2Map(Object bean, FMT fmt) {
 		
-		LinkedHashMap<String,Object> param = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String,Object> map = new LinkedHashMap<String, Object>();
+		Class<?> clazz = bean.getClass();//获取当前对象的类
 		try {
-			if(isRemoveDef){
-				//去掉默认值
-				removeDefault(obj, clazz);
-			}
-		
 			Field[] fields = getFields(clazz);//获取该类所有的字段信息
 			
 			List<String> ignoreField = Arrays.asList("serialVersionUID","logger");
 			
-			if(obj != null){
+			if(bean != null){
 				for (Field field : fields) {
 					if(ignoreField.contains(field.getName())){//忽略serialVersionUID 和logger
 						continue;
 					}
 					field.setAccessible(true);
 					try{
-						Object value =field.get(obj);
+						Object value =field.get(bean);
 						if(value != null && !value.equals("")){
-							param.put(field.getName(), value);
+							if(fmt == FMT.TOLOWER){//小写
+								map.put(field.getName().toLowerCase(), field.get(bean));
+							}else if(fmt == FMT.TOUPPER){//大写
+								map.put(field.getName().toUpperCase(), field.get(bean));
+							}else{
+								map.put(field.getName(), field.get(bean));
+							}
 						}
 					}catch(Exception e){
 						System.err.println("Bean转map时出错，字段名："+field.getName()+"，类"+clazz.getSimpleName()+"："+e.getMessage());
@@ -230,18 +227,18 @@ public class ReflectUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return param;
+		return map;
 	}
 	
 	/**
 	 * 去掉默认值
 	 * 
-	 * @param obj
+	 * @param bean
 	 * @param clazz
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public  static <T> void removeDefault(T obj, Class<T> clazz){
+	public  static <T> void removeDefault(T bean, Class<T> clazz){
 
 		List<String> ignoreField = Arrays.asList("serialVersionUID","logger");
 		try {
@@ -256,7 +253,7 @@ public class ReflectUtils {
 				try {
 					Object v = field.get(o);
 					if (v != null) {// 如果有默认值，则置为null
-						field.set(obj, null);
+						field.set(bean, null);
 					}
 				} catch (Exception e) {
 					System.err.println("去掉默认值时出错 :"+ e.getMessage());
@@ -264,6 +261,28 @@ public class ReflectUtils {
 			}
 		} catch (Exception e) {
 			System.err.println("去掉默认值时出错："+ e.getMessage());
+		}
+	}
+	
+
+	/**
+	 * 格式化枚举类
+	 * 
+	 * @author arron
+	 * @date 2016年2月15日 下午4:00:12 
+	 * @version 1.0
+	 */
+	public static enum FMT{
+		NONE(-1),
+		TOUPPER(0),
+		TOLOWER(1),
+		;
+		private int code;
+		private FMT(int code){
+			this.code = code;
+		}
+		public int getCode() {
+			return code;
 		}
 	}
 }

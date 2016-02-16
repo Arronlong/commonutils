@@ -1,13 +1,11 @@
 package common.util.reflect;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.beanutils.ConvertUtils;
+import common.util.date.DateUtils;
 
-public class ConvertUtil {
+public class ConvertUtils {
 	
 	public static<T> T getValue(String value,String fieldName,Class<T> clazz){
 	
@@ -32,29 +30,12 @@ public class ConvertUtil {
 	public static <T> T convertGt(String value, Class<T> clazz) {
 		if (value == null) { // 如果值为null,则返回null
 			return null;
-		} else if (value.equals("")
-				&& !clazz.getName().equals(String.class.getName())) { // 如果value值为"",而且要转为的类型不是string类型，那么就统一返回null，也就是空字符串不能转成任何其他类型的实体，只能返回null
+		} else if (value.equals("") && !clazz.getName().equals(String.class.getName())) { // 如果value值为"",而且要转为的类型不是string类型，那么就统一返回null，也就是空字符串不能转成任何其他类型的实体，只能返回null
 			return null;
 		} else if (Date.class.getName().equalsIgnoreCase(clazz.getName())) { // 增加对从String类型到Date
-			return (T) convertSTD(value);
+			return (T) DateUtils.convertDate2String(value);
 		}
-		return (T) ConvertUtils.convert(value, clazz);
-	}
-
-	//日期类型的转换
-	private static SimpleDateFormat simpleDateFormate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
-	public static Date convertSTD(String date){
-		try {
-			return simpleDateFormate.parse(date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public static String convertDTS(Date date){
-		return simpleDateFormate.format(date);
+		return (T) org.apache.commons.beanutils.ConvertUtils.convert(value, clazz);
 	}
 	
 }

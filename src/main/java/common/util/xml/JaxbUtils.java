@@ -16,7 +16,7 @@ import javax.xml.bind.Unmarshaller;
  * @date 2015年12月21日 下午5:16:26 
  * @version 1.0
  */
-public class JaxbUtil {  
+public class JaxbUtils {  
   
     /** 
      * JavaBean转换成xml 

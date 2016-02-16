@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2015年7月21日 下午4:14:16 
  * @version 1.0
  */
-public class NumUtil {
+public class NumUtils {
 	
 	//num 表示数字，lower表示小写，upper表示大写
 	private static final String[] num_lower = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };

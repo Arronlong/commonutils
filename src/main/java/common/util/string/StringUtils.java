@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Strings;
-
 import common.util.reflect.ReflectUtils;
 import common.util.string.enums.DataFormat;
 
@@ -19,7 +18,7 @@ import common.util.string.enums.DataFormat;
  * @date 2015年9月14日 上午10:29:15 
  * @version 1.0 
  */
-public class StringsUtil {
+public class StringUtils {
 	
 	/**
 	 * 判断是否是空字符串
@@ -269,11 +268,13 @@ public class StringsUtil {
 		String result = "";
 		switch (fmt.getCode()) {
 			case 0://JSON
-				result = JsonUtil.fmt2Json(str);
+				//result = JsonUtil.fmt2Json(str);
+				result = JsonXmlUtils.xml2JSON(str);
 				break;
 				
 			case 1://XML
-				result = JsonUtil.fmt2Xml(str, "root");
+				//result = JsonUtil.fmt2Xml(str, "root");
+				result = JsonXmlUtils.json2XML(str);
 				break;
 	
 			default:
@@ -302,6 +303,28 @@ public class StringsUtil {
 		return results.toArray(new String[]{});
 	}
 	
+	/**
+	 * 通过格式化内容
+	 * 
+	 * @param template		格式化内容
+	 * @param replaceStr	带替换的字符
+	 * @param paras			参数列表
+	 * @return
+	 */
+	public static String format(String template, String replaceStr, Object... paras){
+		//获取长度
+		int len = template.split(replaceStr).length;
+		
+		StringBuffer buf = new StringBuffer();
+		for (int i=0;i<len; i++) {
+			buf.append(template.split(replaceStr)[i]);
+			if(i<paras.length){
+				buf.append(paras[i]);
+			}
+		}
+		return buf.toString();
+	}
+	
 	public static void main(String[] args) {
 //		String str = "12345abcde";
 //		System.out.println("--------------------------------");
@@ -316,7 +339,12 @@ public class StringsUtil {
 //		System.out.println("从倒数第4个开始截取，结果：\n" + StringsUtil.subStr(str, -4, 0));
 //		System.out.println("从倒数第4个开始截取，结果：\n" + StringsUtil.subStr(str, -4, 10));
 		
-		String[] ss = {"aaa","bbb","ccc"};
-		System.out.println(StringsUtil.join(ss, "#|#"));
+//		String[] ss = {"aaa","bbb","ccc"};
+//		System.out.println(StringsUtil.join(ss, "#|#"));
+		
+		String template = "<root><id></id><name>#@#</name><tel>#@#</tel><addr>#@#</addr></root>";
+		String[] paras={"001","aaa","","海淀"};
+		String data = StringUtils.format(template, "#@#", paras);
+		System.out.println(data);
 	}
 }

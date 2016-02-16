@@ -16,7 +16,7 @@ import java.util.Properties;
  * @date 2016年1月14日 下午5:37:18 
  * @version 1.0
  */
-public class PropertiesUtil {
+public class PropertiesUtils {
 
 	/**
 	 * 默认属性集合（文件在Constants中配置）
@@ -60,7 +60,7 @@ public class PropertiesUtil {
 	protected static Properties loadProperties (String fileName) {
 		Properties prop = new Properties();
 		InputStream ins = null;
-		ins = PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName);
+		ins = PropertiesUtils.class.getClassLoader().getResourceAsStream(fileName);
 		if (ins == null) {
 		    System.err.println("Can not find the resource!");
 		} else {

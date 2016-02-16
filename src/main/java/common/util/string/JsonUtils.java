@@ -16,7 +16,7 @@ import com.google.gson.Gson;
  * @date 2015年9月15日 下午4:32:15 
  * @version 1.0
  */
-public class JsonUtil {
+public class JsonUtils {
 	private static final Gson gson = new Gson();
 	
 	/**
@@ -120,7 +120,7 @@ public class JsonUtil {
 			return fmt2Xml(fmt2Json(json),rootEle);
 		}
 		rootEle = rootEle.replaceAll("\\W", "");
-		rootEle = StringsUtil.isNullOrEmpty(rootEle)? "root": rootEle;
+		rootEle = StringUtils.isNullOrEmpty(rootEle)? "root": rootEle;
 //		return json.replaceAll("\"(\\w*)\":\"?([^\",}]*)\"?,?","<$1>$2</$1>").replaceAll("\\{([^\\}]*)\\}", "<?xml version=\"1.0\" encoding=\"utf-8\" ?><"+rootEle+">$1"+"</"+rootEle+">");
 		
 		//去掉@attributes和@value

@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2015年7月20日 下午10:56:42
  * @version 1.0
  */
-public class DateUtil {
+public class DateUtils {
 
 	private final static String datePattern = "yyyy-MM-dd HH:mm:ss";
 

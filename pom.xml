@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>common.utils</groupId>
 	<artifactId>CommonUtils</artifactId>
-	<version>1.0.0-beta</version>
+	<version>1.1.0-beta</version>
 	<description>通用工具类，包括：数字、字符串、日期、对象复制、反射、类型转换、xml处理</description>
 
 	<properties>
@@ -30,11 +30,21 @@
 			<artifactId>commons-beanutils-core</artifactId>
 			<version>1.8.3</version>
 		</dependency>
-				<!-- simple-xml -->
+		<!-- simple-xml -->
 		<dependency>
 			<groupId>org.simpleframework</groupId>
 			<artifactId>simple-xml</artifactId>
 			<version>2.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>xom</groupId>
+			<artifactId>xom</artifactId>
+			<version>1.2.5</version>
 		</dependency>
 	</dependencies>
 </project>

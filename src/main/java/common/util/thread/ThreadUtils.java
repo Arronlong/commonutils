@@ -6,7 +6,7 @@ package common.util.thread;
  * @date 2016年1月12日 上午8:59:34 
  * @version 1.0 
  */
-public class ThreadUtil {
+public class ThreadUtils {
 
 	public static void sleep(long millis){
 		try {

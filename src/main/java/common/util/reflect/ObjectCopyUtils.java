@@ -20,7 +20,7 @@ import java.util.Set;
  * @date 2015年1月9日 上午10:50:32
  * @version 1.0
  */
-public class ObjectCopyUtil {
+public class ObjectCopyUtils {
 
 	/**
 	 * 拷贝对象方法（适合同一类型的对象复制，但结果需强制转换）

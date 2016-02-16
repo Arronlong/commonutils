@@ -13,7 +13,7 @@ import org.simpleframework.xml.core.Persister;
  * @date 2015年12月21日 上午10:18:28 
  * @version 1.0 
  */
-public class SimpleXmlUtil {
+public class SimpleXmlUtils {
     /**
      * XML对象（String类型）与Java对象转换器
      */
