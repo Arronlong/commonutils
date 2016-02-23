@@ -74,10 +74,12 @@ public class JsonUtils {
 	
 	/**
 	 * 格式化为json格式
+	 * 请使用@see{JsonXmlUtils}的 xml2JSON方法
 	 * 
 	 * @param result
 	 * @return
 	 */
+	@Deprecated
 	public static String fmt2Json(String result){
 		if(validate(result)){
 			return result;
@@ -100,21 +102,25 @@ public class JsonUtils {
 	
 	/**
 	 * 格式化为xml格式
+	 * 请使用@see{JsonXmlUtils}的 json2XML方法
 	 * 
 	 * @param json
 	 * @return
 	 */
+	@Deprecated
 	public static String fmt2Xml(String json){
 		return fmt2Xml(json, "root");
 	}
 	
 	/**
 	 * 格式化为xml格式
+	 * 请使用@see{JsonXmlUtils}的 json2XML方法
 	 * 
 	 * @param json
 	 * @param rootEle
 	 * @return
 	 */
+	@Deprecated
 	public static String fmt2Xml(String json, String rootEle){
 		if(!validate(json)){
 			return fmt2Xml(fmt2Json(json),rootEle);

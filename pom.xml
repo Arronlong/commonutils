@@ -1,9 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>common.utils</groupId>
 	<artifactId>CommonUtils</artifactId>
-	<version>1.1.0-beta</version>
+	<version>1.2.0-beta</version>
 	<description>通用工具类，包括：数字、字符串、日期、对象复制、反射、类型转换、xml处理</description>
 
 	<properties>
