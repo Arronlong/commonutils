@@ -182,17 +182,18 @@ public class ReflectUtils {
 	 * @return
 	 */
 	public static LinkedHashMap<String,Object> bean2Map(Object bean) {
-		return bean2Map(bean, FMT.NONE);
+		return bean2Map(bean, false, FMT.NONE);
 	}
 	
 	/**
 	 * Bean转map
 	 * 
 	 * @param bean	
+	 * @param setNull	如果值为空时，设置值为""	
 	 * @param fmt		格式：FMT.NONE(-1),   TOUPPER(0),   TOLOWER(1)
 	 * @return
 	 */
-	public static LinkedHashMap<String,Object> bean2Map(Object bean, FMT fmt) {
+	public static LinkedHashMap<String,Object> bean2Map(Object bean, boolean setNull,FMT fmt) {
 		
 		LinkedHashMap<String,Object> map = new LinkedHashMap<String, Object>();
 		Class<?> clazz = bean.getClass();//获取当前对象的类
@@ -209,7 +210,15 @@ public class ReflectUtils {
 					field.setAccessible(true);
 					try{
 						Object value =field.get(bean);
-						if(value != null && !value.equals("")){
+						if(setNull && (value == null || value.equals(""))){
+							if(fmt == FMT.TOLOWER){//小写
+								map.put(field.getName().toLowerCase(), "");
+							}else if(fmt == FMT.TOUPPER){//大写
+								map.put(field.getName().toUpperCase(), "");
+							}else{
+								map.put(field.getName(), "");
+							}
+						}else  if(value != null && !value.equals("")){
 							if(fmt == FMT.TOLOWER){//小写
 								map.put(field.getName().toLowerCase(), field.get(bean));
 							}else if(fmt == FMT.TOUPPER){//大写
