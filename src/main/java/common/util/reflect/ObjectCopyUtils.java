@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -215,6 +216,21 @@ public class ObjectCopyUtils {
 	}
 	
 	/**
+	 * @param ele
+	 * @param o
+	 * @param clsSrc
+	 * @param clsDesc
+	 * @param overwrite
+	 * @param ignoreSet
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	@SuppressWarnings("unchecked")
+	private static <T, K> T mergeInner(Object objSource, Object objDes, Class<K> clazzSrc, Class<T> clazzDes, boolean overwrite, Set<String> ignoreSet) throws InstantiationException, IllegalAccessException {
+		return merge((K)objSource, (T)objDes, clazzSrc, clazzDes, overwrite, ignoreSet);
+	}
+	
+	/**
 	 * 合并对象方法（适合不同类型的转换）<br/>
 	 * 前提是，源类中的所有属性在目标类中都存在
 	 * 
@@ -229,7 +245,7 @@ public class ObjectCopyUtils {
 	 * @throws IllegalAccessException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static <T, K> T merge(K objSource,T objDes,Class<K> clazzSrc,Class<T> clazzDes,boolean overwrite,Set<String> IgnoreSet) throws InstantiationException, IllegalAccessException{
+	public static <T, K> T merge(K objSource,T objDes,Class<K> clazzSrc,Class<T> clazzDes,boolean overwrite,Set<String> ignoreSet) throws InstantiationException, IllegalAccessException{
 		
 		if(null == objSource) return null;//如果源对象为空，则直接返回null
 
@@ -278,9 +294,16 @@ public class ObjectCopyUtils {
 					}
 					Class<?> clsSrc = (Class<?>) ((ParameterizedType)field.getGenericType()).getActualTypeArguments()[0];
 					Class<?> clsDesc = (Class<?>) ((ParameterizedType)m.get(fieldName).getGenericType()).getActualTypeArguments()[0]; 
-					for (Object ele : (Collection)value) {
-						c.add(copy(ele, clsSrc, clsDesc, overwrite));
+					int count=((Collection)value).size();
+//					count = count<=((Collection) field.get(objDes)).size() ? count : ((Collection)field.get(objDes)).size();
+					Iterator iterator_src = ((Collection)value).iterator();
+					Iterator iterator_desc = ((Collection)m.get(fieldName).get(objDes)).iterator();
+					for (int i = 0; i < count && iterator_src.hasNext() && iterator_desc.hasNext(); i++) {
+						c.add(mergeInner(iterator_src.next(), iterator_desc.next(), clsSrc, clsDesc, overwrite, ignoreSet));
 					}
+//					for (Object ele : (Collection)value) {
+//						c.add(copy(ele, clsSrc, clsDesc, overwrite));
+//					}
 					value = c;
 //				}else if(java.util.Map.class.isAssignableFrom(field.getType()) && field.getGenericType()!=Object.class){
 					//如果该字段是Map，且指定了泛型类型，则将其子类全部进行转换
@@ -288,11 +311,11 @@ public class ObjectCopyUtils {
 					//如果目标对象当前属性不为空
 					if(null!=m.get(fieldName).get(objDes)){
 						if(overwrite){//如果覆盖当前属性值，但map中存在，则不覆盖，否则覆盖
-							if(null!=IgnoreSet && IgnoreSet.contains(fieldName.toUpperCase())){//如果map中有值
+							if(null!=ignoreSet && ignoreSet.contains(fieldName.toUpperCase())){//如果map中有值
 								continue;
 							}
 						}else{//如果不覆盖，但是map存在，则必须覆盖，否则不覆盖
-							if(null==IgnoreSet || !IgnoreSet.contains(fieldName.toUpperCase())){//如果map中没有值
+							if(null==ignoreSet || !ignoreSet.contains(fieldName.toUpperCase())){//如果map中没有值
 								continue;
 							}
 						}
@@ -323,4 +346,6 @@ public class ObjectCopyUtils {
 		}  
 		return objDes;
 	}
+
+
 }

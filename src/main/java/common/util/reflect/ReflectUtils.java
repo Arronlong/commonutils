@@ -2,6 +2,7 @@ package common.util.reflect;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -130,6 +131,7 @@ public class ReflectUtils {
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static <T> T  map2Bean(Map<String,Object> param , Class<T> clazz) throws InstantiationException, IllegalAccessException{
 		
 		if(param == null || param.size()==0){
@@ -141,7 +143,6 @@ public class ReflectUtils {
 		Class<?>[] paramTypes = new Class[1];
 		
 		T obj = null;
-		
 
 			//创建实例
 			obj = clazz.newInstance();
@@ -154,7 +155,7 @@ public class ReflectUtils {
 					String fieldName = field.getName();
 					value = param.get(fieldName);
 					if(value != null){
-						paramTypes[0] = field.getType();
+						
 						Method method = null;
 						//调用相应对象的set方法
 						StringBuffer methodName = new StringBuffer("set");
@@ -163,6 +164,26 @@ public class ReflectUtils {
 						
 						//测试输出
 						//System.out.println(paramTypes[0].getName());
+						
+						paramTypes[0] = field.getType();
+						if(paramTypes[0]==List.class){
+							List list = new ArrayList();
+							ParameterizedType pt = (ParameterizedType) field.getGenericType();   
+					        if(pt.getActualTypeArguments().length>0){
+					        	for (Map<String,Object> m : (List<Map<String,Object>>)value) {
+					        		Object o = map2Bean(m, (Class)pt.getActualTypeArguments()[0]);
+					        		list.add(o);
+								}
+					        }
+					        try {
+								method = clazz.getMethod(methodName.toString(), paramTypes);
+								method.invoke(obj, list);
+							} catch (Exception e) {
+								System.err.println("map转Bean时出错，字段名："+fieldName+"，类"+clazz.getSimpleName()+"："+e.getMessage());
+							}
+					        continue;
+						}
+						
 						try {
 							method = clazz.getMethod(methodName.toString(), paramTypes);
 							method.invoke(obj, ConvertUtils.getValue(value.toString(), fieldName, paramTypes[0]));
