@@ -1,4 +1,4 @@
-package com.arronlong.commonutils;
+package com.arronlong.common.util.test;
 
 import org.junit.Test;
 
