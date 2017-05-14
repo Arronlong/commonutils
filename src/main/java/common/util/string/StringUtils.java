@@ -65,7 +65,9 @@ public class StringUtils {
 					for (Object object : c) {
 						emptyToNull(object);
 					}
-				} catch (IllegalArgumentException | IllegalAccessException e) {
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}else{
@@ -73,7 +75,9 @@ public class StringUtils {
 					if(field.get(obj).equals("")){
 						field.set(obj, null);
 					}
-				} catch (IllegalArgumentException | IllegalAccessException e) {
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}
@@ -97,13 +101,17 @@ public class StringUtils {
 					for (Object object : c) {
 						emptyToNull(object);
 					}
-				} catch (IllegalArgumentException | IllegalAccessException e) {
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}else{
 				try {
 					field.set(obj, Strings.nullToEmpty(String.valueOf(field.get(obj))));
-				} catch (IllegalArgumentException | IllegalAccessException e) {
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}
