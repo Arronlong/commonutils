@@ -24,6 +24,30 @@ public class DateUtils {
 	public static final String now() {
 		return convertDate2String(datePattern);
 	}
+	
+	/**
+	 * 昨天（格式 yyyy-MM-dd HH:mm:ss）
+	 * 
+	 * @return
+	 */
+	public static final String yestoday(){
+		return add(Calendar.DATE, -1);
+	}
+	
+	/**
+	 * 明天（格式 yyyy-MM-dd HH:mm:ss）
+	 * 
+	 * @return
+	 */
+	public static final String tomorrow(){
+		return add(Calendar.DATE, 1);
+	}
+	
+	public static final String add(int field, int days){
+		Calendar cal = getCalendar();
+		cal.add(field, days);
+		return convertDate2String(cal.getTime());
+	}
 
 	/**
 	 * 获取当前时间（格式 yyyy-MM-dd HH:mm:ss）
@@ -194,6 +218,34 @@ public class DateUtils {
 	 */
 	public static final String convertDate2String(String pattern) {
 		return convertDate2String(new Date(), pattern);
+	}
+	
+	/**
+	 * 转换格式为yyyy-mm-dd HH:mm:ss的日期字符串转化为指定格式的字符串
+	 * 
+	 * @param strDate
+	 *            待转换的日期，格式为：yyyy-mm-dd HH:mm:ss
+	 * @param pattern
+	 *            结果所需的格式
+	 * @return
+	 */
+	public static final String convertDate2String(String strDate, String pattern) {
+		return convertDate2String(strDate, datePattern, pattern);
+	}
+	
+	/**
+	 * 转换格式为yyyy-mm-dd HH:mm:ss的日期字符串转化为指定格式的字符串
+	 * 
+	 * @param strDate
+	 *            待转换的日期，格式为：yyyy-mm-dd HH:mm:ss
+	 * @param pattern_Src
+	 *            待转日期格式
+	 * @param pattern_Des
+	 *            结果所需的格式
+	 * @return
+	 */
+	public static final String convertDate2String(String strDate, String pattern_Src, String pattern_Des) {
+		return convertDate2String(convertString2Date(strDate, pattern_Src), pattern_Des);
 	}
 
 	/**

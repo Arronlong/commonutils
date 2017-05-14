@@ -42,7 +42,7 @@
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
 			<version>2.4</version>
-			<classifier>jdk15</classifier>  
+			<classifier>jdk15</classifier>
 		</dependency>
 		<dependency>
 			<groupId>xom</groupId>
@@ -55,30 +55,48 @@
 			<version>1.6.1</version>
 		</dependency>
 	</dependencies>
-	<build>  
-		<plugins>	 
+	<build>
+		<plugins>
+			<!-- 覆盖率 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura-maven-plugin.version}</version>
+				<configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+					<aggregate>true</aggregate>
+					<formats>
+						<format>xml</format>
+						<format>html</format>
+					</formats>
+					<instrumentation>
+						<excludes>
+							<exclude>**.test/*.class</exclude>
+						</excludes>
+					</instrumentation>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>${coveralls-maven-plugin.version}</version>
 			</plugin>
 		</plugins>
-	</build>    
+	</build>
 
-	<repositories>  
-	    <repository>  
-		<!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id  
-		就会覆盖中央仓库的配置 --> 
-		<id>mvnrepository</id>  
-		<name>mvnrepository</name>  
-		<url>http://central.maven.org/maven2/</url>  
-		<layout>default</layout>  
-		<releases>  
-		    <enabled>true</enabled>  
-		</releases>  
-		<snapshots>  
-		    <enabled>false</enabled>  
-		</snapshots>  
-	    </repository>
+	<repositories>
+		<repository>
+			<!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id 就会覆盖中央仓库的配置 -->
+			<id>mvnrepository</id>
+			<name>mvnrepository</name>
+			<url>http://central.maven.org/maven2/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 </project>
