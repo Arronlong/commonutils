@@ -117,7 +117,7 @@ public class ObjectCopyUtils {
 		}else if(clazz.getSimpleName().equals("byte")){
 			field.setByte(v[0], (byte)Byte.parseByte(v[1].toString()));
 		}else if(clazz.getSimpleName().equals("char")){
-			field.setChar(v[0], (char)v[1]);
+			field.setChar(v[0], (Character)v[1]);
 		}else if(clazz==Double.class || clazz.getSimpleName().equals("double")){
 			field.setDouble(v[0], (double)Double.parseDouble(v[1].toString()));
 		}else if(clazz.getSimpleName().equals("float")){
