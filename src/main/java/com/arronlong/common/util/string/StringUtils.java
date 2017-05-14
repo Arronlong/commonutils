@@ -1,4 +1,4 @@
-package common.util.string;
+package com.arronlong.common.util.string;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.arronlong.common.util.reflect.ReflectUtils;
+import com.arronlong.common.util.string.enums.DataFormat;
 import com.google.common.base.Strings;
-import common.util.reflect.ReflectUtils;
-import common.util.string.enums.DataFormat;
 
 /** 
  * 字符串工具类

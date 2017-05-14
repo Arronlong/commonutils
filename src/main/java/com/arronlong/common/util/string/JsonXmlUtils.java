@@ -1,4 +1,4 @@
-package common.util.string;
+package com.arronlong.common.util.string;
 
 import java.io.CharArrayReader;
 import java.util.ArrayList;

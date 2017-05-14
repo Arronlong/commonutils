@@ -1,4 +1,4 @@
-package common.util.reflect;
+package com.arronlong.common.util.reflect;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;

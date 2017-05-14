@@ -1,4 +1,4 @@
-package common.util.date;
+package com.arronlong.common.util.date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
