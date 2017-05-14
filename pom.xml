@@ -12,6 +12,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<!-- 编译时的编码 -->
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
+		<coveralls-maven-plugin.version>4.1.0</coveralls-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -53,7 +55,16 @@
 			<version>1.6.1</version>
 		</dependency>
 	</dependencies>
-	 
+	<build>  
+		<plugins>	 
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>${coveralls-maven-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>    
+
 	<repositories>  
 	    <repository>  
 		<!-- Maven 自带的中央仓库使用的Id为central 如果其他的仓库声明也是用该Id  
