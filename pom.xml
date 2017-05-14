@@ -64,7 +64,7 @@
 		就会覆盖中央仓库的配置 --> 
 		<id>mvnrepository</id>  
 		<name>mvnrepository</name>  
-		<url>http://www.mvnrepository.com/</url>  
+		<url>http://central.maven.org/maven2/</url>  
 		<layout>default</layout>  
 		<releases>  
 		    <enabled>true</enabled>  
