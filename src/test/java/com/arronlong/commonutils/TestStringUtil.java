@@ -1,13 +1,12 @@
 package com.arronlong.commonutils;
 
+import org.junit.Test;
+
 import com.arronlong.common.util.string.StringUtils;
 
 public class TestStringUtil {
 
-	public static void main(String[] args) {
-		new TestStringUtil().testAll();
-	}
-	
+	@Test
 	public void testAll(){
 		String str = "12345abcde";
 		System.out.println("--------------------------------");
